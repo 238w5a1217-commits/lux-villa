@@ -188,12 +188,14 @@ export default async function HomePage() {
                 </Link>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-                {latestVillas.map((villa) => (
-                  <div key={villa.id} className="villa-grid-card">
-                    <VillaCard villa={villa} />
-                  </div>
-                ))}
+              <div className="overflow-hidden relative">
+                <div className="animate-marquee gap-5 pb-4">
+                  {[...latestVillas, ...latestVillas, ...latestVillas].map((villa, idx) => (
+                    <div key={`${villa.id}-${idx}`} className="villa-grid-card w-[280px] sm:w-[320px] shrink-0">
+                      <VillaCard villa={villa} />
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </section>
