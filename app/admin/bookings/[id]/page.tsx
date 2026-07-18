@@ -20,6 +20,8 @@ import {
   XOctagon,
 } from "lucide-react";
 
+export const dynamic = "force-dynamic";
+
 interface BookingDetailPageProps {
   params: Promise<{ id: string }>;
 }
