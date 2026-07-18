@@ -40,6 +40,7 @@ export default function VillaForm({ initialData, isEdit, villaId }: VillaFormPro
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [customAmenity, setCustomAmenity] = useState("");
 
   const [form, setForm] = useState({
     title: initialData?.title ?? "",
@@ -71,6 +72,31 @@ export default function VillaForm({ initialData, isEdit, villaId }: VillaFormPro
       ...prev,
       [name]: type === "checkbox" ? (e.target as HTMLInputElement).checked : value,
     }));
+  };
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files) return;
+    Array.from(files).forEach((file) => {
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        if (ev.target?.result) {
+          setForm((prev) => ({
+            ...prev,
+            images: prev.images ? prev.images + "\n" + ev.target!.result : ev.target!.result as string,
+          }));
+        }
+      };
+      reader.readAsDataURL(file);
+    });
+  };
+
+  const addCustomAmenity = () => {
+    const trimmed = customAmenity.trim();
+    if (trimmed && !form.amenities.includes(trimmed)) {
+      setForm((prev) => ({ ...prev, amenities: [...prev.amenities, trimmed] }));
+      setCustomAmenity("");
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -207,23 +233,77 @@ export default function VillaForm({ initialData, isEdit, villaId }: VillaFormPro
 
             {/* Images */}
             <div className="card p-6">
-              <h2 className="font-semibold text-[var(--color-ink)] mb-1">Image URLs</h2>
-              <p className="text-xs text-[var(--color-ink-soft)] mb-3">One URL per line. First image is the main image.</p>
+              <div className="flex justify-between items-center mb-1">
+                <h2 className="font-semibold text-[var(--color-ink)]">Images</h2>
+                <div className="relative overflow-hidden inline-block">
+                  <button type="button" className="btn btn-primary text-xs py-1.5 px-3">
+                    Upload Images
+                  </button>
+                  <input
+                    type="file"
+                    multiple
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                    className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
+                  />
+                </div>
+              </div>
+              <p className="text-xs text-[var(--color-ink-soft)] mb-3">Add image URLs below or upload files (one URL/Base64 per line). First image is the main image.</p>
               <textarea
                 className="input resize-none font-mono text-xs"
                 name="images"
                 value={form.images}
                 onChange={handleChange}
-                rows={5}
+                rows={3}
                 placeholder="https://images.unsplash.com/photo-xxx&#10;https://images.unsplash.com/photo-yyy"
               />
+              
+              {form.images.trim() && (
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
+                  {form.images.split("\n").map(s => s.trim()).filter(Boolean).map((img, i) => (
+                    <div key={i} className="relative aspect-video rounded-lg overflow-hidden bg-gray-100 border border-[var(--color-line)] group">
+                      <img src={img} alt={`Preview ${i}`} className="w-full h-full object-cover" />
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const newImages = form.images.split("\n").map(s => s.trim()).filter(Boolean);
+                          newImages.splice(i, 1);
+                          setForm(prev => ({ ...prev, images: newImages.join("\n") }));
+                        }}
+                        className="absolute top-2 right-2 w-6 h-6 bg-red-500 text-white rounded-full flex justify-center items-center opacity-0 group-hover:opacity-100 transition-opacity"
+                      >
+                        ×
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* Amenities */}
             <div className="card p-6">
               <h2 className="font-semibold text-[var(--color-ink)] mb-3">Amenities</h2>
+              
+              <div className="flex gap-2 mb-4 max-w-sm">
+                <input
+                  type="text"
+                  className="input py-1.5 text-sm"
+                  placeholder="Custom amenity..."
+                  value={customAmenity}
+                  onChange={(e) => setCustomAmenity(e.target.value)}
+                  onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), addCustomAmenity())}
+                />
+                <button
+                  type="button"
+                  onClick={addCustomAmenity}
+                  className="btn btn-outline text-xs px-4"
+                >
+                  Add
+                </button>
+              </div>
+
               <div className="flex flex-wrap gap-2">
-                {COMMON_AMENITIES.map((a) => (
+                {[...new Set([...COMMON_AMENITIES, ...form.amenities])].map((a) => (
                   <button
                     key={a}
                     type="button"
