@@ -3,6 +3,8 @@ import { prisma } from "@/lib/prisma";
 import VillaForm from "@/components/VillaForm";
 import { Villa } from "@/types";
 
+export const dynamic = "force-dynamic";
+
 interface EditVillaPageProps {
   params: Promise<{ id: string }>;
 }
