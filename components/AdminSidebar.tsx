@@ -41,7 +41,7 @@ export default function AdminSidebar() {
       </p>
 
       {/* Nav */}
-      <nav className="flex flex-col gap-1 flex-1">
+      <nav className="flex flex-col gap-1 flex-1 overflow-y-auto pr-1" style={{ scrollbarWidth: "thin", scrollbarColor: "var(--color-amber) transparent" }}>
         {navItems.map(({ href, icon: Icon, label }) => {
           const active = pathname.startsWith(href);
           return (
