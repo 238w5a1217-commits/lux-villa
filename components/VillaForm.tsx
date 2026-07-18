@@ -248,15 +248,7 @@ export default function VillaForm({ initialData, isEdit, villaId }: VillaFormPro
                   />
                 </div>
               </div>
-              <p className="text-xs text-[var(--color-ink-soft)] mb-3">Add image URLs below or upload files (one URL/Base64 per line). First image is the main image.</p>
-              <textarea
-                className="input resize-none font-mono text-xs"
-                name="images"
-                value={form.images}
-                onChange={handleChange}
-                rows={3}
-                placeholder="https://images.unsplash.com/photo-xxx&#10;https://images.unsplash.com/photo-yyy"
-              />
+              <p className="text-xs text-[var(--color-ink-soft)] mb-3">Upload image files. First image is the main image.</p>
               
               {form.images.trim() && (
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
