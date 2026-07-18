@@ -4,6 +4,8 @@ import { Prisma } from "@prisma/client";
 import Link from "next/link";
 import { Home, ClipboardList, Clock, CheckCircle, Eye } from "lucide-react";
 
+export const dynamic = "force-dynamic";
+
 type BookingWithVilla = Prisma.BookingGetPayload<{ include: { villa: true } }>;
 type SerializedBooking = Omit<BookingWithVilla, "createdAt" | "villa"> & {
   createdAt: string;
