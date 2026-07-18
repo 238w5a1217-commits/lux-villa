@@ -1,0 +1,217 @@
+@import "tailwindcss";
+
+@theme {
+  --font-inter: "Inter", sans-serif;
+  --font-playfair: "Playfair Display", serif;
+
+  /* Color palette */
+  --color-cream: #fdfaf6;
+  --color-cream-2: #f5ede0;
+  --color-ink: #1a1208;
+  --color-ink-soft: #6b5744;
+  --color-amber: #8b5e3c;
+  --color-amber-dark: #6b4626;
+  --color-amber-light: #d4a76a;
+  --color-gold: #c9971f;
+  --color-line: #e8d9c4;
+  --color-success: #2d7a4f;
+  --color-success-bg: #eaf4ed;
+  --color-danger: #b03030;
+  --color-danger-bg: #fdeaea;
+  --color-warning: #b07a00;
+  --color-warning-bg: #fff8e1;
+
+  /* Shadows */
+  --shadow-card: 0 2px 12px rgba(26, 18, 8, 0.07);
+  --shadow-lg: 0 12px 40px rgba(26, 18, 8, 0.14);
+
+  /* Border radius */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+}
+
+/* ---- Base ---- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-inter);
+  background: var(--color-cream);
+  color: var(--color-ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-playfair);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ---- Utility classes ---- */
+.font-playfair { font-family: var(--font-playfair); }
+.font-inter    { font-family: var(--font-inter); }
+
+.bg-cream   { background-color: var(--color-cream); }
+.bg-cream-2 { background-color: var(--color-cream-2); }
+.text-ink        { color: var(--color-ink); }
+.text-ink-soft   { color: var(--color-ink-soft); }
+.text-amber      { color: var(--color-amber); }
+.border-line     { border-color: var(--color-line); }
+
+/* ---- Button base ---- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px 22px;
+  border-radius: 10px;
+  font-family: var(--font-inter);
+  font-weight: 600;
+  font-size: 14.5px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  white-space: nowrap;
+}
+.btn-primary {
+  background: var(--color-amber);
+  color: #fff;
+}
+.btn-primary:hover { background: var(--color-amber-dark); }
+
+.btn-outline {
+  background: transparent;
+  border: 1.5px solid var(--color-ink);
+  color: var(--color-ink);
+}
+.btn-outline:hover { background: var(--color-ink); color: #fff; }
+
+.btn-ghost {
+  background: var(--color-cream-2);
+  color: var(--color-ink);
+}
+.btn-ghost:hover { background: var(--color-line); }
+
+.btn-danger {
+  background: var(--color-danger);
+  color: #fff;
+}
+.btn-danger:hover { opacity: 0.9; }
+
+.btn-success {
+  background: var(--color-success);
+  color: #fff;
+}
+.btn-success:hover { opacity: 0.9; }
+
+/* ---- Cards ---- */
+.card {
+  background: #fff;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+}
+
+/* ---- Status badges ---- */
+.badge-pending  { background: var(--color-warning-bg); color: var(--color-warning); }
+.badge-approved { background: var(--color-success-bg); color: var(--color-success); }
+.badge-rejected { background: var(--color-danger-bg);  color: var(--color-danger); }
+
+/* ---- Form inputs ---- */
+.input {
+  width: 100%;
+  padding: 11px 14px;
+  border: 1.5px solid var(--color-line);
+  border-radius: 9px;
+  font-family: var(--font-inter);
+  font-size: 14px;
+  color: var(--color-ink);
+  background: #fff;
+  transition: border-color 0.15s;
+  outline: none;
+}
+.input:focus {
+  border-color: var(--color-amber);
+  box-shadow: 0 0 0 3px rgba(139, 94, 60, 0.1);
+}
+.input::placeholder { color: #b8a898; }
+
+/* ---- Section header ---- */
+.section-title {
+  font-family: var(--font-playfair);
+  font-size: 32px;
+  font-weight: 600;
+  color: var(--color-ink);
+  margin: 0 0 6px;
+}
+
+/* ---- Page wrapper ---- */
+.page-wrap {
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 32px;
+}
+
+/* ---- Animations ---- */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-up { animation: fade-up 0.4s ease forwards; }
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Scroll reveal ──────────────────────────────────────────
+   Elements are ALWAYS visible by default.
+   JS adds .reveal-hidden to set them invisible,
+   then .reveal-visible to animate them in.
+   Cards in same row share the same parent observer,
+   so ALL reveal together — no half-faded 3rd card. ──── */
+
+.reveal-hidden {
+  opacity: 0 !important;
+  transform: translateY(28px) !important;
+  transition: none !important;
+}
+
+.reveal-hidden.from-left  { transform: translateX(-36px) !important; }
+.reveal-hidden.from-right { transform: translateX(36px)  !important; }
+.reveal-hidden.from-scale { transform: scale(0.96) translateY(16px) !important; }
+
+.reveal-visible {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: opacity 0.6s cubic-bezier(0.22,1,0.36,1),
+              transform 0.6s cubic-bezier(0.22,1,0.36,1) !important;
+}
+
+/* stagger siblings inside a group */
+.reveal-visible:nth-child(2) { transition-delay: 0.08s !important; }
+.reveal-visible:nth-child(3) { transition-delay: 0.16s !important; }
+.reveal-visible:nth-child(4) { transition-delay: 0.24s !important; }
+
+/* ---- Scrollbar ---- */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--color-cream-2); }
+::-webkit-scrollbar-thumb { background: var(--color-line); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #c9b89e; }
